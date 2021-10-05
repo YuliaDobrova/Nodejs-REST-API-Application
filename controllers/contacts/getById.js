@@ -1,7 +1,7 @@
 const { NotFound } = require("http-errors");
 
 const { Contact } = require("../../models");
-const { sendSuccessReq } = require("../../helpers");
+const { sendResponse } = require("../../helpers");
 
 const getById = async (req, res, next) => {
   const { contactId } = req.params;
@@ -25,15 +25,7 @@ const getById = async (req, res, next) => {
     // });
     // return;
   }
-  sendSuccessReq(res, { result });
-  // статус не указываем, так как по умолчанию идет 200
-  // res.status(200).json({
-  //   status: "success",
-  //   code: 200,
-  //   data: {
-  //     result: contacts,
-  //   },
-  // });
+  sendResponse({ res, data: result });
 };
 
 module.exports = getById;
