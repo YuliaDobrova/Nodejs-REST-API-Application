@@ -1,4 +1,3 @@
-// Создание функции-обертки для упрощения try-catch
 const controllerWrapper = (ctrl) => {
   const func = async (req, res, next) => {
     try {

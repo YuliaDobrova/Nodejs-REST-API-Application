@@ -4,6 +4,7 @@ const {
   controllerWrapper,
   validation,
   authenticate,
+  upload,
 } = require("../../middlewares");
 const { joiSchema } = require("../../models/user");
 const { auth: ctrl } = require("../../controllers");
@@ -11,14 +12,18 @@ const { auth: ctrl } = require("../../controllers");
 const router = express.Router();
 
 router.post("/signup", validation(joiSchema), controllerWrapper(ctrl.signup));
-// router.post("/register", validation(joiSchema), controllerWrapper(ctrl.register));
 
 router.post("/login", validation(joiSchema), controllerWrapper(ctrl.login));
-// router.post("/signin", validation(joiSchema), controllerWrapper(ctrl.signin));
 
 router.post("/logout", authenticate, controllerWrapper(ctrl.logout));
-// router.post("/signout", controllerWrapper(ctrl.signout));
 
 router.get("/current", authenticate, controllerWrapper(ctrl.current));
+
+router.patch(
+  "/users/avatars",
+  authenticate,
+  upload.single("avatar"),
+  controllerWrapper(ctrl.uploadAvatar)
+);
 
 module.exports = router;
