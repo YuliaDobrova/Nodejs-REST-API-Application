@@ -15,17 +15,7 @@ const signup = async (req, res) => {
     });
     return;
   }
-  // ===================
-  // изначально до хэширования:
-  // await User.create(req.body);
-  // ===================
-  // альтернативный метод хэширования:
-  // const newUser = {
-  //   email,
-  //   password: bcrypt.hashSync(password, bcrypt.genSaltSync(10)),
-  // };
-  // await User.create(newUser);
-  // ===================
+
   const newUser = new User({ email });
   newUser.setPassword(password);
   await newUser.save();

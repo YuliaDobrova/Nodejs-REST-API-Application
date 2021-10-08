@@ -1,6 +1,7 @@
 const { Schema, model } = require("mongoose");
 const Joi = require("joi");
 const bcrypt = require("bcryptjs");
+const gravatar = require("gravatar");
 
 const userSchema = Schema(
   {
@@ -22,11 +23,14 @@ const userSchema = Schema(
       type: String,
       default: null,
     },
+    avatarURL: {
+      type: String,
+      default: () => gravatar.url(this.email, { s: "250", r: "g", d: "404" }),
+    },
   },
   { versionKey: false, timestamps: true }
 );
 
-//метод хэширования (прописан в signup):
 userSchema.methods.setPassword = function (password) {
   this.password = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 };
@@ -38,6 +42,9 @@ userSchema.methods.comparePassword = function (password) {
 const joiSchema = Joi.object({
   email: Joi.string().required(),
   password: Joi.string().required(),
+  subscription: Joi.string(),
+  token: Joi.string(),
+  avatarURL: Joi.string(),
 });
 
 const User = model("user", userSchema);

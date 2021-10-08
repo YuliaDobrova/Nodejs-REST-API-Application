@@ -4,7 +4,6 @@ const cors = require("cors");
 
 const contactsRouter = require("./routes/api/contacts");
 const authRouter = require("./routes/api/auth");
-// const usersRouter = require("./routes/api/users");
 
 const { sendResponse } = require("./helpers");
 
@@ -18,7 +17,7 @@ app.use(express.json());
 
 app.use("/api/v1/contacts", contactsRouter);
 app.use("/api/v1/auth", authRouter);
-// app.use("/api/v1/users", usersRouter);
+app.use(express.static("public"));
 
 app.use((req, res, next) => {
   sendResponse({ res, status: 404, statusMessage: "Not Found" });
