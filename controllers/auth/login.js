@@ -9,12 +9,14 @@ const { SECRET_KEY } = process.env;
 const login = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
-  if (!user || !user.comparePassword(password)) {
+  if (!user || !user.comparePassword(password) || !user.verify) {
     sendResponse({
       res,
       status: 401,
       statusMessage: "Error",
-      data: { message: "Email or password is wrong" },
+      data: {
+        message: "Email or password is wrong or email is not verificated",
+      },
     });
     return;
   }
